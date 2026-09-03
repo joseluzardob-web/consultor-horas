@@ -8,7 +8,7 @@ import DatosTab from "./components/DatosTab";
 function Brand() {
   return (
     <div className="brand" aria-label="Besteam">
-      <img className="brand-logo" src="/Logo_BT.jpg" alt="BT Consulting" />
+      <span className="brand-logo-frame"><img className="brand-logo" src="/Logo_BT.png" alt="BT Consulting" /></span>
     </div>
   );
 }
