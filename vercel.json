@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/ords/:path*",
+      "destination": "https://swvsvvwprsjtham-desabest.adb.sa-santiago-1.oraclecloudapps.com/ords/:path*"
+    }
+  ]
+}
