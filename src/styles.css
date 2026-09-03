@@ -109,6 +109,11 @@ body {
 .master-form { width: 100%; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(70px, 90px); gap: 8px; margin-bottom: 14px; align-items: stretch; }
 .master-form input { width: 100%; min-width: 0; max-width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; font-family: "IBM Plex Sans", sans-serif; font-size: 13.5px; background: #fcfbf8; color: var(--ink); }
 .master-form button { grid-column: 1 / -1; width: 100%; max-width: 100%; }
+.client-form { grid-template-columns: minmax(0, 1fr) auto; }
+.client-form button { grid-column: auto; width: auto; }
+.project-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
+.project-form button { grid-column: auto; width: auto; }
+.master-select { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; font-family: "IBM Plex Sans", sans-serif; font-size: 13.5px; background: #fcfbf8; color: var(--ink); }
 .list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 4px; border-bottom: 1px solid var(--line); font-size: 13.5px; gap: 10px; }
 .list-item:last-child { border-bottom: none; }
 .list-sub { color: var(--slate); font-size: 11.5px; }
@@ -152,4 +157,6 @@ body {
   .body { padding: 18px 16px 50px; }
   .header { padding: 22px 16px 16px; }
   .tabs { padding: 12px 16px 0; }
+  .client-form, .project-form { grid-template-columns: minmax(0, 1fr); }
+  .client-form button, .project-form button { grid-column: 1 / -1; width: 100%; }
 }

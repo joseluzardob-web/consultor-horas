@@ -93,9 +93,9 @@ export default function DatosTab({ consultores, clientes, proyectos, onDataChang
       <div className="card">
         <h2>Clientes</h2>
         <p className="hint">Empresas facturadas por proyecto.</p>
-        <form onSubmit={addCliente} style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+        <form className="master-form client-form" onSubmit={addCliente}>
           <input type="text" placeholder="Nombre del cliente" value={nuevoCliente} onChange={(e) => setNuevoCliente(e.target.value)}
-            style={{ flex: 1, padding: "9px 10px", border: "1px solid var(--line)", borderRadius: 6, fontSize: 13.5 }} />
+          />
           <button className="btn secondary" type="submit">Agregar</button>
         </form>
         {clientes.length === 0 ? <div className="empty">Sin clientes todavía.</div> : clientes.map((c, i) => (
@@ -109,17 +109,15 @@ export default function DatosTab({ consultores, clientes, proyectos, onDataChang
       <div className="card">
         <h2>Proyectos</h2>
         <p className="hint">Cada proyecto pertenece a un cliente.</p>
-        <form onSubmit={addProyecto} style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
+        <form className="master-form project-form" onSubmit={addProyecto}>
           <input type="text" placeholder="Nombre del proyecto" value={nuevoProyecto} onChange={(e) => setNuevoProyecto(e.target.value)}
-            style={{ padding: "9px 10px", border: "1px solid var(--line)", borderRadius: 6, fontSize: 13.5 }} />
-          <div style={{ display: "flex", gap: 8 }}>
+          />
             <select value={proyectoClienteId} onChange={(e) => setProyectoClienteId(e.target.value)}
-              style={{ flex: 1, padding: "9px 10px", border: "1px solid var(--line)", borderRadius: 6, fontSize: 13.5 }} disabled={clientes.length === 0}>
+              className="master-select" disabled={clientes.length === 0}>
               {clientes.length === 0 && <option>Creá un cliente primero</option>}
               {clientes.map((c) => (<option key={c.id} value={c.id}>{c.nombre}</option>))}
             </select>
             <button className="btn secondary" type="submit" disabled={clientes.length === 0}>Agregar</button>
-          </div>
         </form>
         {proyectos.length === 0 ? <div className="empty">Sin proyectos todavía.</div> : proyectos.map((p) => (
           <div className="list-item" key={p.id}>
