@@ -4,8 +4,7 @@ import { api, setToken } from "../api";
 function Brand() {
   return (
     <div className="brand" aria-label="Besteam">
-      <span className="brand-mark">B</span>
-      <span className="brand-name">Besteam</span>
+      <img className="brand-logo" src="/Logo_BT.jpg" alt="BT Consulting" />
     </div>
   );
 }
