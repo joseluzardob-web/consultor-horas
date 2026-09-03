@@ -28,7 +28,7 @@ body {
 .app-shell { min-height: 100%; }
 
 .brand { display: inline-flex; align-items: center; margin-bottom: 12px; }
-.brand-logo-frame { display: block; width: clamp(110px, 21vw, 150px); aspect-ratio: 193 / 131; }
+.brand-logo-frame { display: block; width: clamp(95px, 18vw, 135px); aspect-ratio: 193 / 131; }
 .brand-logo { display: block; width: 100%; height: 100%; object-fit: contain; }
 
 .header {
@@ -157,7 +157,7 @@ body {
 .pending-card .brand { justify-content: center; width: 100%; }
 
 @media (max-width: 720px) {
-  .brand-logo-frame { width: clamp(100px, 32vw, 125px); }
+  .brand-logo-frame { width: clamp(88px, 27vw, 110px); }
 }
 
 .loading-wrap { padding: 40px; color: var(--slate); }
