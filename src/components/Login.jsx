@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { api, setToken } from "../api";
 
+function Brand() {
+  return (
+    <div className="brand" aria-label="Besteam">
+      <span className="brand-mark">B</span>
+      <span className="brand-name">Besteam</span>
+    </div>
+  );
+}
+
 export default function Login({ onLoggedIn }) {
   const [mode, setMode] = useState("signin");
   const [email, setEmail] = useState("");
@@ -33,6 +42,7 @@ export default function Login({ onLoggedIn }) {
   return (
     <div className="login-wrap">
       <div className="login-card">
+        <Brand />
         <p className="eyebrow">Libro de horas</p>
         <h1 className="title" style={{ fontSize: 20, marginBottom: 18 }}>
           {mode === "signin" ? "Iniciar sesión" : "Crear cuenta"}

@@ -5,6 +5,15 @@ import RegistroTab from "./components/RegistroTab";
 import ResumenTab from "./components/ResumenTab";
 import DatosTab from "./components/DatosTab";
 
+function Brand() {
+  return (
+    <div className="brand" aria-label="Besteam">
+      <span className="brand-mark">B</span>
+      <span className="brand-name">Besteam</span>
+    </div>
+  );
+}
+
 export default function App() {
   const [checkingSession, setCheckingSession] = useState(true);
   const [profile, setProfile] = useState(null);
@@ -63,6 +72,7 @@ export default function App() {
     return (
       <div className="pending-wrap">
         <div className="pending-card">
+          <Brand />
           <p className="eyebrow">Libro de horas</p>
           <h2 className="title" style={{ fontSize: 18 }}>Cuenta pendiente de aprobación</h2>
           <p className="hint">
@@ -79,6 +89,7 @@ export default function App() {
     return (
       <div className="pending-wrap">
         <div className="pending-card">
+          <Brand />
           <p className="eyebrow">Libro de horas</p>
           <h2 className="title" style={{ fontSize: 18 }}>Falta vincular tu usuario</h2>
           <p className="hint">
@@ -98,6 +109,7 @@ export default function App() {
       <header className="header">
         <div className="header-row">
           <div>
+            <Brand />
             <p className="eyebrow">Libro de horas · Consultoría</p>
             <h1 className="title">Registro de horas por consultor</h1>
             <p className="sub">Cargá horas, asignalas a cliente y proyecto, y mirá los totales del mes.</p>
