@@ -89,6 +89,11 @@ export const api = {
   createRegistro: (payload) => request("/api/registros", { method: "POST", body: payload }),
   deleteRegistro: (id) => request(`/api/registros/${id}`, { method: "DELETE" }),
 
+  // --- pagos (admin) ---
+  listPagos: () => request("/api/pagos"),
+  createPago: (payload) => request("/api/pagos", { method: "POST", body: payload }),
+  deletePago: (id) => request(`/api/pagos/${id}`, { method: "DELETE" }),
+
   // --- cuentas (admin) ---
   listProfiles: () => request("/api/profiles"),
   updateProfile: (id, role, consultor_id) => request(`/api/profiles/${id}`, { method: "PATCH", body: { role, consultor_id: consultor_id || "" } }),

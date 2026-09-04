@@ -438,6 +438,110 @@ end;
     p_name=>'Authorization', p_bind_variable_name=>'authorization', p_source_type=>'HEADER', p_access_method=>'IN');
 
   -- =========================================================
+  -- PAGOS (solo administrador)
+  -- =========================================================
+  ords.define_template(p_module_name => 'app.api', p_pattern => 'pagos');
+  ords.define_template(p_module_name => 'app.api', p_pattern => 'pagos/:id');
+
+  -- GET /api/pagos
+  ords.define_handler(
+    p_module_name => 'app.api', p_pattern => 'pagos', p_method => 'GET',
+    p_source_type => ords.source_type_plsql,
+    p_source      => q'[
+declare
+  l_profile json_object_t := app_security.current_profile(:authorization);
+  l_arr json_array_t := json_array_t();
+  l_obj json_object_t;
+begin
+  if l_profile.get_string('role') != 'admin' then
+    :status_code := 403; owa_util.mime_header('application/json', false);
+    htp.p('{"error":"Solo un administrador puede hacer esto"}'); return;
+  end if;
+  for r in (
+    select id, consultor_id, to_char(fecha, 'YYYY-MM-DD') fecha, monto, descripcion
+      from pagos
+     order by fecha desc, created_at desc
+  ) loop
+    l_obj := json_object_t();
+    l_obj.put('id', r.id);
+    l_obj.put('consultor_id', r.consultor_id);
+    l_obj.put('fecha', r.fecha);
+    l_obj.put('monto', r.monto);
+    l_obj.put('descripcion', r.descripcion);
+    l_arr.append(l_obj);
+  end loop;
+  :status_code := 200;
+  owa_util.mime_header('application/json', false);
+  owa_util.http_header_close;
+  htp.p(l_arr.to_string);
+exception
+  when others then
+    :status_code := 401; owa_util.mime_header('application/json', false);
+    htp.p('{"error":"No autorizado"}');
+end;
+]'
+  );
+  ords.define_parameter(p_module_name=>'app.api', p_pattern=>'pagos', p_method=>'GET',
+    p_name=>'Authorization', p_bind_variable_name=>'authorization', p_source_type=>'HEADER', p_access_method=>'IN');
+
+  -- POST /api/pagos  body: { "consultor_id", "fecha" (YYYY-MM-DD), "monto", "descripcion" }
+  ords.define_handler(
+    p_module_name => 'app.api', p_pattern => 'pagos', p_method => 'POST',
+    p_source_type => ords.source_type_plsql, p_mimes_allowed => 'application/json',
+    p_source      => q'[
+declare
+  l_profile json_object_t := app_security.current_profile(:authorization);
+  l_id varchar2(32);
+begin
+  if l_profile.get_string('role') != 'admin' then
+    :status_code := 403; owa_util.mime_header('application/json', false);
+    htp.p('{"error":"Solo un administrador puede hacer esto"}'); return;
+  end if;
+  insert into pagos (consultor_id, fecha, monto, descripcion)
+  values (:consultor_id, to_date(:fecha, 'YYYY-MM-DD'), :monto, :descripcion)
+  returning id into l_id;
+  commit;
+  :status_code := 201;
+  owa_util.mime_header('application/json', false);
+  htp.p('{"id":"'||l_id||'"}');
+exception
+  when others then
+    :status_code := 400; owa_util.mime_header('application/json', false);
+    htp.p('{"error":"'||replace(sqlerrm,'"','''')||'"}');
+end;
+]'
+  );
+  ords.define_parameter(p_module_name=>'app.api', p_pattern=>'pagos', p_method=>'POST',
+    p_name=>'Authorization', p_bind_variable_name=>'authorization', p_source_type=>'HEADER', p_access_method=>'IN');
+
+  -- DELETE /api/pagos/:id
+  ords.define_handler(
+    p_module_name => 'app.api', p_pattern => 'pagos/:id', p_method => 'DELETE',
+    p_source_type => ords.source_type_plsql,
+    p_source      => q'[
+declare
+  l_profile json_object_t := app_security.current_profile(:authorization);
+begin
+  if l_profile.get_string('role') != 'admin' then
+    :status_code := 403; owa_util.mime_header('application/json', false);
+    htp.p('{"error":"Solo un administrador puede hacer esto"}'); return;
+  end if;
+  delete from pagos where id = :id;
+  commit;
+  :status_code := 200;
+  owa_util.mime_header('application/json', false);
+  htp.p('{"ok":true}');
+exception
+  when others then
+    :status_code := 401; owa_util.mime_header('application/json', false);
+    htp.p('{"error":"No autorizado"}');
+end;
+]'
+  );
+  ords.define_parameter(p_module_name=>'app.api', p_pattern=>'pagos/:id', p_method=>'DELETE',
+    p_name=>'Authorization', p_bind_variable_name=>'authorization', p_source_type=>'HEADER', p_access_method=>'IN');
+
+  -- =========================================================
   -- CUENTAS (profiles) — solo administrador
   -- =========================================================
   ords.define_template(p_module_name => 'app.api', p_pattern => 'profiles');

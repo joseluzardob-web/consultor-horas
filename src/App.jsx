@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import RegistroTab from "./components/RegistroTab";
 import ResumenTab from "./components/ResumenTab";
 import DatosTab from "./components/DatosTab";
+import PagosTab from "./components/PagosTab";
 
 function Brand() {
   return (
@@ -124,6 +125,7 @@ export default function App() {
         <button className={`tab ${tab === "registro" ? "active" : ""}`} onClick={() => setTab("registro")}>{isAdmin ? "Registrar horas" : "Mis horas"}</button>
         <button className={`tab ${tab === "resumen" ? "active" : ""}`} onClick={() => setTab("resumen")}>{isAdmin ? "Resumen mensual" : "Mi resumen"}</button>
         {isAdmin && <button className={`tab ${tab === "datos" ? "active" : ""}`} onClick={() => setTab("datos")}>Consultores, clientes y proyectos</button>}
+        {isAdmin && <button className={`tab ${tab === "pagos" ? "active" : ""}`} onClick={() => setTab("pagos")}>Pagos y pendientes</button>}
       </nav>
 
       <main className="body">
@@ -137,6 +139,7 @@ export default function App() {
             {tab === "registro" && <RegistroTab profile={profile} consultores={consultores} clientes={clientes} proyectos={proyectos} onDataChanged={loadMasterData} />}
             {tab === "resumen" && <ResumenTab profile={profile} consultores={consultores} clientes={clientes} proyectos={proyectos} />}
             {tab === "datos" && isAdmin && <DatosTab consultores={consultores} clientes={clientes} proyectos={proyectos} onDataChanged={loadMasterData} />}
+            {tab === "pagos" && isAdmin && <PagosTab consultores={consultores} />}
           </>
         )}
       </main>

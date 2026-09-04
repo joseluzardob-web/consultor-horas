@@ -12,6 +12,7 @@ endpoints HTTP que el frontend consume con `fetch()`.
 - Registro de horas por consultor, proyecto y fecha.
 - Tabla dinámica de horas por consultor y cliente, por mes.
 - Tarifa por hora por consultor y cálculo de monto.
+- Registro de pagos realizados y consulta del saldo pendiente por consultor.
 - Exportación a Excel (.xlsx).
 - Login real: cada consultor entra con su email y contraseña (hasheada
   con salt + SHA-512 iterado) y recibe un token JWT firmado por la base,
@@ -77,6 +78,8 @@ No trabajes con el usuario ADMIN para la app. Creá un esquema propio:
    2. `02_security_pkg.sql` — crea el paquete de contraseñas y JWT.
    3. `03_ords_auth_api.sql` — crea los endpoints `/auth/...`.
    4. `04_ords_data_api.sql` — crea los endpoints `/api/...`.
+  5. Si la base ya estaba instalada antes de agregar pagos, ejecutá
+    `oracle/06_pagos_migration.sql` para crear la tabla de pagos.
 
   (El `ords.enable_schema` ya lo hiciste en el paso 2. El archivo
   `03_ords_auth_api.sql` no debe volver a ejecutar ese procedimiento,
@@ -122,6 +125,11 @@ npm run dev
 ```
 
 Abrí `http://localhost:5173`.    --- http://localhost:5173/
+
+Después de agregar una funcionalidad, ejecutar scripts SQL en Oracle no actualiza
+el frontend publicado. Para probar localmente los cambios, ejecutá `npm install`
+si hace falta y luego `npm run dev`. Si usás Vercel, subí los cambios al repositorio
+para que Vercel genere un nuevo deploy; después recargá la página sin caché.
 
 ## 5. Crear el primer administrador    --- error:
 
@@ -219,7 +227,8 @@ consultor-horas-oracle/
 │  ├─ 02_security_pkg.sql      ← Contraseñas + JWT (reemplaza a Supabase Auth)
 │  ├─ 03_ords_auth_api.sql     ← Endpoints /auth/login, /auth/signup, /auth/me
 │  ├─ 04_ords_data_api.sql     ← Endpoints /api/consultores, /clientes, /proyectos, /registros, /profiles
-│  └─ 05_bootstrap_admin.sql   ← Cómo promover al primer administrador
+│  ├─ 05_bootstrap_admin.sql   ← Cómo promover al primer administrador
+│  └─ 06_pagos_migration.sql   ← Migración de pagos para bases existentes
 ├─ src/
 │  ├─ components/ (Login, RegistroTab, ResumenTab, DatosTab)
 │  ├─ utils/ (format.js, excel.js)

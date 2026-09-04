@@ -19,12 +19,17 @@ BEGIN
 END;
 /
 
+-----------------
 -- PROBAR local
+-----------------
 http://localhost:5173/
 
 
+-----------------
 -- PROBAR DESDE CHROME
+-----------------
 https://consultor-horas-oracle.vercel.app
+
 
 El flujo completo está operativo:
 
@@ -37,17 +42,31 @@ CORS configurado para el dominio de producción.
 Recuerda compartir únicamente la URL estable de producción, no las URLs temporales de Preview de Vercel.
 
 
+-----------------
 -- GIT
+-----------------
 USUARIO: joseluzardob-web - NOMBRE: JLuzardo
-PASW:   
+PASW:    Conectado con gmail
+
+git config user.name "joseluzardob-web"
+git config user.email "joseluzardob@gmail.com"
+
+git remote add origin https://github.com/joseluzardob-web/consultor-horas.git
+git branch -M main
+git commit -m "Corrige definitivamente el ancho del formulario"
+git push -u origin main
 
 
+-----------------
 -- VER ESQUEMA
+-----------------
 SELECT *
   FROM USER_ORDS_SCHEMAS;
 
 
+-----------------
 -- ERROR CREAR CUENTA:
+-----------------
 Ejecutar:
 BEGIN
   ORDS.SET_MODULE_ORIGINS_ALLOWED(
@@ -58,6 +77,7 @@ BEGIN
 END;
 /
 
+-----------------
 UPDATE profiles
 SET role = 'admin'
 WHERE email = 'joseluzardob@gmail.com'

@@ -36,6 +36,16 @@ create table registros (
   constraint chk_horas_positivas check (horas > 0)
 );
 
+create table pagos (
+  id            varchar2(32) default rawtohex(sys_guid()) primary key,
+  consultor_id  varchar2(32) not null references consultores(id) on delete cascade,
+  fecha         date not null,
+  monto         number(12,2) not null,
+  descripcion   varchar2(1000),
+  created_at    timestamp default systimestamp,
+  constraint chk_pago_positivo check (monto > 0)
+);
+
 -- Una fila por usuario que puede iniciar sesión.
 -- role: 'admin' | 'consultor' | 'pending' (recien registrado, sin vincular)
 create table profiles (
@@ -62,6 +72,8 @@ create index idx_proyectos_cliente on proyectos(cliente_id);
 create index idx_registros_consultor on registros(consultor_id);
 create index idx_registros_proyecto on registros(proyecto_id);
 create index idx_registros_fecha on registros(fecha);
+create index idx_pagos_consultor on pagos(consultor_id);
+create index idx_pagos_fecha on pagos(fecha);
 create index idx_profiles_consultor on profiles(consultor_id);
 
 commit;
